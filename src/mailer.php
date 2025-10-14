@@ -5,8 +5,8 @@
 // Disse bør settes i din serverkonfigurasjon (f.eks. Laravel Forge Environment eller .htaccess).
 $mailgun_api_key = getenv('MAILGUN_API_KEY');
 $mailgun_domain = getenv('MAILGUN_DOMAIN');
-$seller_email = getenv('SELLER_EMAIL') ?: 'salg@dittfirma.no'; // Tillater en fallback
-$from_email = getenv('FROM_EMAIL') ?: 'noreply@' . ($mailgun_domain ?: 'ditt.domene.com');
+$seller_email = getenv('SELLER_EMAIL') ?: 'salg@dittfirma.no'; // E-posten til intern selger
+$from_email = 'lykkehjulh@akari.no'; // E-posten avsenderen ser.
 $from_name = 'Akari Lykkehjul';
 
 /**
