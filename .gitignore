@@ -1,0 +1,5 @@
+# Ignore sensitive files
+*.pub
+
+# Ignore vendor directories
+/vendor/
