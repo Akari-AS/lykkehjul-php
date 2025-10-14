@@ -44,6 +44,16 @@ function send_mailgun_email($to, $subject, $html_body, $from, $from_name, $api_k
 
 // Denne blokken kjører kun når filen inkluderes av en POST-request
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Først, sjekk om kritiske miljøvariabler er satt
+    if (empty($mailgun_api_key) || empty($mailgun_domain)) {
+        header('Content-Type: application/json', true, 500);
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Serverkonfigurasjonsfeil: Mailgun API-detaljer mangler.'
+        ]);
+        exit;
+    }
+
     // Hent data fra POST-requesten (sendt som JSON)
     $input = json_decode(file_get_contents('php://input'), true);
 

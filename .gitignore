@@ -3,3 +3,6 @@
 
 # Ignore vendor directories
 /vendor/
+
+# Ignore local development assets
+/screenshot/
