@@ -1,0 +1,12 @@
+{
+    "name": "akari/lykkehjul",
+    "description": "A simple PHP-based wheel of fortune application.",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "authors": [
+        {
+            "name": "Akari AS"
+        }
+    ]
+}
