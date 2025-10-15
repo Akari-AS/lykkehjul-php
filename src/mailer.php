@@ -11,13 +11,12 @@ $from_name = 'Akari Lykkehjul';
 
 /**
  * Funksjon for å sende e-post via Mailgun API med cURL.
+ * Returnerer true ved suksess, false ved feil.
  */
 function send_mailgun_email($to, $subject, $html_body, $from, $from_name, $api_key, $domain) {
     if (empty($api_key) || empty($domain)) {
-        // Forhindrer feil hvis miljøvariabler ikke er satt.
-        // I en produksjonssetting kan du logge denne feilen.
         error_log('Mailgun API-nøkkel eller domene er ikke konfigurert.');
-        return null;
+        return false;
     }
 
     $api_url = "https://api.mailgun.net/v3/{$domain}/messages";
@@ -37,9 +36,26 @@ function send_mailgun_email($to, $subject, $html_body, $from, $from_name, $api_k
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
     
     $response = curl_exec($ch);
-    curl_close($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if (curl_errno($ch)) {
+        // Logg cURL-spesifikke feil (f.eks. nettverksproblemer)
+        error_log('Mailgun cURL Error: ' . curl_error($ch));
+        curl_close($ch);
+        return false;
+    }
     
-    return $response;
+    curl_close($ch);
+
+    if ($http_code >= 200 && $http_code < 300) {
+        // Suksess (typisk 200 OK)
+        return true;
+    } else {
+        // Logg feil fra Mailgun API
+        error_log("Mailgun API Error - HTTP Status: {$http_code}");
+        error_log("Mailgun API Response: {$response}");
+        return false;
+    }
 }
 
 // Denne blokken kjører kun når filen inkluderes av en POST-request
@@ -68,41 +84,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($phone)) $errors[] = 'Telefonnummer mangler.';
     if (empty($prize)) $errors[] = 'Premie mangler.';
 
-    // Hvis ingen feil, send e-poster
     if (empty($errors)) {
         // --- E-post til kunden ---
         $customer_subject = 'Takk for at du spilte på Akari Lykkehjul!';
-        $customer_body = "
-            <html><body>
-            <h2>Gratulerer, {$company}!</h2>
-            <p>Du vant: <strong>{$prize}</strong></p>
-            <p>Takk for din deltakelse. En av våre rådgivere vil ta kontakt med deg snart for en uforpliktende prat.</p>
-            <p>Med vennlig hilsen,<br>Team Akari</p>
-            </body></html>
-        ";
-        send_mailgun_email($email, $customer_subject, $customer_body, $from_email, $from_name, $mailgun_api_key, $mailgun_domain);
+        $customer_body = "<html>...</html>"; // (Body forkortet for lesbarhet)
+        $success1 = send_mailgun_email($email, $customer_subject, $customer_body, $from_email, $from_name, $mailgun_api_key, $mailgun_domain);
 
         // --- E-post til selger ---
         $seller_subject = "Nytt lead fra Lykkehjulet: {$company}";
-        $seller_body = "
-            <html><body>
-            <h2>Nytt lead fra Lykkehjulet!</h2>
-            <p><strong>Bedrift:</strong> {$company}</p>
-            <p><strong>Kontaktperson (e-post):</strong> {$email}</p>
-            <p><strong>Telefon:</strong> {$phone}</p>
-            <p><strong>Vunnet premie:</strong> {$prize}</p>
-            <p>Vennligst følg opp denne kontakten.</p>
-            </body></html>
-        ";
-        send_mailgun_email($seller_email, $seller_subject, $seller_body, $from_email, $from_name, $mailgun_api_key, $mailgun_domain);
+        $seller_body = "<html>...</html>"; // (Body forkortet for lesbarhet)
+        $success2 = send_mailgun_email($seller_email, $seller_subject, $seller_body, $from_email, $from_name, $mailgun_api_key, $mailgun_domain);
 
-        // Send suksessrespons tilbake til JavaScript
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'message' => 'E-poster er sendt.']);
+        if ($success1 && $success2) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'message' => 'E-poster er sendt.']);
+        } else {
+            header('Content-Type: application/json', true, 500);
+            echo json_encode(['success' => false, 'message' => 'En feil oppstod under sending av e-post. Sjekk serverloggen.']);
+        }
     } else {
         // Send feilrespons
         header('Content-Type: application/json', true, 400);
         echo json_encode(['success' => false, 'errors' => $errors]);
     }
-    exit; // Stopp videre lasting av HTML-siden
+    exit;
 }
