@@ -169,7 +169,7 @@ require_once __DIR__ . '/../src/mailer.php';
           </div>
           <div class="meta">
             <div class="label">Hønefosskortet</div>
-            <div class="title">Gavekort på 1 000 kr</div>
+            <div class="title">Gavekort på 5 000 kr</div>
           </div>
         </div>
         <ul id="prizeList" style="margin:0; padding:0; color:var(--ui)"></ul>
@@ -188,7 +188,7 @@ require_once __DIR__ . '/../src/mailer.php';
       "Gratis rådgivning",
       "-15 % på video",
       "Gratis rådgivning",
-      "Gavekort på 1000 kr" // sjeldent 7. alternativ
+      "Gavekort på 5000 kr" // sjeldent 7. alternativ
     ];
 
     const canvas = document.getElementById('wheel');
@@ -198,8 +198,8 @@ require_once __DIR__ . '/../src/mailer.php';
     const radius = center - 10;
     const sliceCount = outcomes.length;
 
-  // Special tiny chance: 1 in 1,000,000,000 for the last outcome (selection only)
-  const SPECIAL_CHANCE = 1 / 1000000000;
+  // Special chance: 1 in 5,000 for the last outcome (selection only)
+  const SPECIAL_CHANCE = 1 / 5000;
 
     // Compute per-slice weights and derived angles (angles sum to 2π)
     function computeSlices(){
