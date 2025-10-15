@@ -73,10 +73,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Hent data fra POST-requesten (sendt som JSON)
     $input = json_decode(file_get_contents('php://input'), true);
 
-    $company = filter_var($input['company'] ?? '', FILTER_SANITIZE_STRING);
+    $company = filter_var($input['company'] ?? '', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $email = filter_var($input['email'] ?? '', FILTER_SANITIZE_EMAIL);
-    $phone = filter_var($input['phone'] ?? '', FILTER_SANITIZE_STRING);
-    $prize = filter_var($input['prize'] ?? 'Ingen premie vunnet', FILTER_SANITIZE_STRING);
+    $phone = filter_var($input['phone'] ?? '', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $prize = filter_var($input['prize'] ?? 'Ingen premie vunnet', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     $errors = [];
     if (empty($company)) $errors[] = 'Bedriftsnavn mangler.';
