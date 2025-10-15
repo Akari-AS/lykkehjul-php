@@ -168,8 +168,8 @@ require_once __DIR__ . '/../src/mailer.php';
             <img src="honefosskortet.png" alt="Hønefosskortet" />
           </div>
           <div class="meta">
-            <div class="label">Kan brukes på valgfri tjeneste hos Akari.</div>
             <div class="title">Gavekort på 5 000 kr</div>
+            <div class="label">Kan brukes på valgfri tjeneste hos Akari.</div>
           </div>
         </div>
         <ul id="prizeList" style="margin:0; padding:0; color:var(--ui)"></ul>
