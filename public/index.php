@@ -695,24 +695,6 @@ require_once __DIR__ . '/../src/mailer.php';
 
     // Eventer
     document.getElementById('spinBtn').addEventListener('click', spin);
-  // --- Debug helpers ---
-  window.DebugWheel = window.DebugWheel || { forceSpecial: false };
-    document.getElementById('dbgSpin').addEventListener('click', ()=>{
-      // unlock form for debug and set sample data so Spin can run
-      if (!formLocked){
-        document.getElementById('company').value = 'Debug AS';
-        document.getElementById('preEmail').value = 'debug@local';
-        document.getElementById('prePhone').value = '+4790000000';
-        inputs.forEach(el=> el.dispatchEvent(new Event('input', {bubbles:true}))); 
-      }
-      // dispatch real click
-      document.getElementById('spinBtn').click();
-    });
-    document.getElementById('dbgForce').addEventListener('click', (e)=>{
-      DebugWheel.forceSpecial = !DebugWheel.forceSpecial;
-      e.currentTarget.textContent = DebugWheel.forceSpecial ? 'Force special: ON' : 'Force special';
-      e.currentTarget.style.opacity = DebugWheel.forceSpecial ? '1' : '0.9';
-    });
         
     // Førstetegning
     drawWheel(currentRotation);
