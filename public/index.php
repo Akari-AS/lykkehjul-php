@@ -180,14 +180,6 @@ require_once __DIR__ . '/../src/mailer.php';
 
   <div class="toast" id="toast" role="status" aria-live="polite">Kopiert til utklippstavlen</div>
 
-  <!-- Debug bar for quick QA: Spin and Force Special -->
-  <div class="debug-bar" id="debugBar" aria-hidden="false">
-    <div class="dbg">
-      <button id="dbgSpin" class="spin">Spin wheel</button>
-      <button id="dbgForce" class="force">Force special</button>
-    </div>
-  </div>
-
   <script>
     const outcomes = [
       "-15 % på fotografering",
