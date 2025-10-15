@@ -92,7 +92,7 @@ require_once __DIR__ . '/../src/mailer.php';
   input, textarea, select{ width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.06); color:var(--ui); box-sizing:border-box; max-width:100% }
     .success{ color:#a7f3d0; font-size:14px; }
   /* Debug bar (hidden by default; small helper for QA) */
-  .debug-bar{ position:fixed; left:12px; right:12px; bottom:12px; display:flex; gap:8px; align-items:center; justify-content:flex-end; pointer-events:auto; z-index:9999 }
+  .debug-bar{ display: none; position:fixed; left:12px; right:12px; bottom:12px; display:flex; gap:8px; align-items:center; justify-content:flex-end; pointer-events:auto; z-index:9999 }
   .debug-bar .dbg{ background: rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); padding:8px 10px; border-radius:10px; color:var(--ui); font-size:13px }
   .debug-bar .dbg button{ appearance:none; border:none; padding:8px 10px; border-radius:8px; cursor:pointer; font-weight:700 }
   .debug-bar .dbg .spin{ background:linear-gradient(180deg,var(--accent),#2ebc7d); color:#05250f }
